@@ -1,0 +1,51 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Composant de recherche -->
+  <app-search
+    (searchChange)="onSearch($event)"
+    class="mb-8"
+  ></app-search>
+
+  <!-- Grille de Pokémon -->
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div
+      *ngFor="let pokemon of pokemons"
+      class="p-4 border rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
+      (click)="loadPokemonDetail(pokemon)"
+    >
+      <img
+        [src]="getPokemonImage(pokemon)"
+        [alt]="pokemon.name"
+        class="w-full h-40 object-contain"
+      />
+      <h3 class="text-lg font-semibold text-center mt-2 capitalize">
+        {{pokemon.name}}
+      </h3>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="mt-8 flex justify-center gap-4">
+    <button
+      (click)="previousPage()"
+      [disabled]="currentPage === 0"
+      class="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+    >
+      Précédent
+    </button>
+    <span class="py-2">Page {{currentPage + 1}}</span>
+    <button
+      (click)="nextPage()"
+      [disabled]="!hasNextPage"
+      class="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+    >
+      Suivant
+    </button>
+  </div>
+
+  <!-- Modal de détails -->
+  <app-details
+    *ngIf="selectedPokemon"
+    [pokemon]="selectedPokemon"
+    (close)="selectedPokemon = null"
+  ></app-details>
+</div>
